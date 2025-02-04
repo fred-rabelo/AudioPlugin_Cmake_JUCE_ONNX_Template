@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.24)
+set(CMAKE_CXX_STANDARD 17)
+
+
+# ======== set variables =========
 
 # Change to your project name
 set (my_project_name ONNXAudioPluginTemplate)                       # Enter the name of your project
@@ -14,12 +18,98 @@ set (path_icon_small "")                                    # If only one of the
 
 set (plugin_description Demo)                    # Enter a description of your plugin
 
-project(${my_project_name} VERSION ${current_version})
-
-set(CMAKE_CXX_STANDARD 17)
-
-set(ONNX_SOURCE_DIR D:/Fred/Uni/Abschluss/Coding/Libraries)    # Set the path to the installed ONNX libraries
+set(ONNX_SOURCE_DIR D:/Fred/Uni/Abschluss/Coding/Libraries)     # Set the path to the installed ONNX libraries
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)                   # Set the path to install the libraries
+
+# set include directories as varaiable for ease of use
+# maybe use this (and libs) variables to implement diferent build types in the future
+set(ONNX_HEADERS_RELEASE
+    ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime;
+    ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime/test/util/include;
+    ${ONNX_SOURCE_DIR}/onnxruntime/include/onnxruntime;
+    ${ONNX_SOURCE_DIR}/onnxruntime/include/onnxruntime/core/session;
+    ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release/_deps/pytorch_cpuinfo-src/include;
+    ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release;
+    ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release/_deps/utf8_range-src;
+    ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release/_deps/abseil_cpp-src;
+)
+
+# set the path prefix to the libraries we want to include
+set(ONNX_RELEASE_LIBS_PATH_PREFIX D:/Fred/Uni/Abschluss/Coding/Libraries/onnxruntime/build/Windows/Release)
+
+# set the libraries as a variable for ease of use
+set(ONNX_LIBS_RELEASE
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_test_utils.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_session.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_optimizer.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_providers.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_util.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_lora.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_framework.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_util.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_graph.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_mlas.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_common.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnxruntime_flatbuffers.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/Release/onnx_test_data_proto.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/onnx-build/Release/onnx.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/onnx-build/Release/onnx_proto.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/protobuf-build/Release/libprotobuf-lite.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/re2-build/Release/re2.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/flatbuffers-build/Release/flatbuffers.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_message.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_format.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/synchronization/Release/absl_synchronization.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_globals.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/synchronization/Release/absl_kernel_timeout_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_str_format_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/hash/Release/absl_hash.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_commandlineflag.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/time/Release/absl_time.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_symbolize.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/synchronization/Release/absl_graphcycles_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_conditions.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_strings.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_malloc_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_demangle_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_stacktrace.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_base.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_demangle_rust.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/types/Release/absl_bad_optional_access.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_strings_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_debugging_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/numeric/Release/absl_int128.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_spinlock_wait.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_decode_rust_punycode.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_raw_logging_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_log_severity.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_commandlineflag_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_utf8_for_code_point.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/hash/Release/absl_city.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/hash/Release/absl_low_level_hash.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_sink.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_log_sink_set.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_entry.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_globals.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_nullguard.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_examine_stack.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_proto.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_strerror.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/container/Release/absl_raw_hash_set.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_vlog_config_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_reflection.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_internal.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_config.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/time/Release/absl_time_zone.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/time/Release/absl_civil_time.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_string_view.lib;
+    ${ONNX_RELEASE_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_throw_delegate.lib;
+)
+
+
+# ======== Begin Code =========
+
+project(${my_project_name} VERSION ${current_version})
 
 # We're going to use CPM as our package manager to bring in JUCE
 # Check to see if we have CPM installed already.  Bring it in if we don't.
@@ -47,7 +137,7 @@ set(SourceFiles
         Source/PluginEditor.h
         Source/PluginProcessor.cpp
         Source/PluginProcessor.h
-        Source/silero_vad.ort.h
+        Source/silero_vad.ort.h         # Silero VAD Model as byte array
 )
 
 # Change these to your own preferences
@@ -81,19 +171,12 @@ juce_add_plugin(${PROJECT_NAME}
     # AU_COPY_DIR                                 # you can set the JUCE_"plugintype"_COPY_DIR property on the set_directory_properties, rather than setting this argument on each individual target.
 )
 
+
 # include onnx directories
 target_include_directories(${PROJECT_NAME}
     # using directories from the Release Build
     PRIVATE
-        ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime;
-        # ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime/test/win_getopt/wide/include;  # do we need this?
-        ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime/test/util/include;
-        ${ONNX_SOURCE_DIR}/onnxruntime/include/onnxruntime;
-        ${ONNX_SOURCE_DIR}/onnxruntime/include/onnxruntime/core/session;
-        ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release/_deps/pytorch_cpuinfo-src/include;
-        ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release;
-        ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release/_deps/utf8_range-src;
-        ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Release/_deps/abseil_cpp-src;
+        ${ONNX_HEADERS_RELEASE}
 )
 
 
@@ -122,76 +205,6 @@ target_compile_definitions(${PROJECT_NAME}
         #JUCE_VST3_HOST_CROSS_PLATFORM_UID=1
 )
 
-
-set(ONNX_LIBS_PATH_PREFIX D:/Fred/Uni/Abschluss/Coding/Libraries/onnxruntime/build/Windows/Release)
-
-set(ONNX_LIBS_RELEASE
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_test_utils.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_session.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_optimizer.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_providers.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_util.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_lora.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_framework.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_util.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_graph.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_mlas.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_common.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnxruntime_flatbuffers.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/Release/onnx_test_data_proto.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/onnx-build/Release/onnx.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/onnx-build/Release/onnx_proto.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/protobuf-build/Release/libprotobuf-lite.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/re2-build/Release/re2.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/flatbuffers-build/Release/flatbuffers.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_message.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_format.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/synchronization/Release/absl_synchronization.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_globals.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/synchronization/Release/absl_kernel_timeout_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_str_format_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/hash/Release/absl_hash.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_commandlineflag.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/time/Release/absl_time.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_symbolize.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/synchronization/Release/absl_graphcycles_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_conditions.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_strings.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_malloc_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_demangle_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_stacktrace.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_base.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_demangle_rust.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/types/Release/absl_bad_optional_access.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_strings_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_debugging_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/numeric/Release/absl_int128.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_spinlock_wait.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_decode_rust_punycode.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_raw_logging_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_log_severity.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_commandlineflag_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_utf8_for_code_point.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/hash/Release/absl_city.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/hash/Release/absl_low_level_hash.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_sink.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_log_sink_set.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_entry.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_globals.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_nullguard.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/debugging/Release/absl_examine_stack.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_log_internal_proto.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_strerror.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/container/Release/absl_raw_hash_set.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/log/Release/absl_vlog_config_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_reflection.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_internal.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/flags/Release/absl_flags_config.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/time/Release/absl_time_zone.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/time/Release/absl_civil_time.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/strings/Release/absl_string_view.lib;
-    ${ONNX_LIBS_PATH_PREFIX}/_deps/abseil_cpp-build/absl/base/Release/absl_throw_delegate.lib;
-)
 
 # libraries to bring into our project
 target_link_libraries(${PROJECT_NAME}
