@@ -132,7 +132,7 @@ set(ONNX_HEADERS_DEBUG
     ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime/test/win_getopt/wide/include;
     ${ONNX_SOURCE_DIR}/onnxruntime/onnxruntime/test/util/include;
     %(AdditionalIncludeDirectories)
-
+)
 
     # set the path prefix to the libraries we want to include
 set(ONNX_DEBUG_LIBS_PATH_PREFIX ${ONNX_SOURCE_DIR}/onnxruntime/build/Windows/Debug)
